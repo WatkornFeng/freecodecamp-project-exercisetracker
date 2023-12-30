@@ -127,14 +127,14 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     if (logLimit && (fromDate || toDate)) {
       sortData = log.slice(0, logLimit);
     }
-
     const finalLog = sortData.map((e) => {
       return {
         description: e.description,
-        duration: e.duration,
+        duration: parseInt(e.duration),
         date: new Date(e.date).toDateString(),
       };
     });
+    console.log(finalLog);
     return res.json({
       _id: userId,
       username: userFilter.username,
@@ -156,8 +156,8 @@ app.get("/api/users/:_id/logs", async (req, res) => {
   const exercises = user.log.map((e) => {
     return {
       description: e.description,
-      duration: e.duration,
-      date: e.date,
+      duration: parseInt(e.duration),
+      date: new Date(e.date).toDateString(),
     };
   });
 
