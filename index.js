@@ -53,21 +53,21 @@ app.get("/api/users", async (req, res) => {
 app.post("/api/users/:_id/exercises", async (req, res) => {
   const id = req.body[":_id"];
   const description = req.body["description"];
-  const duration = req.body["duration"];
-  let date = req.body["date"] || new Date();
-
+  const duration = parseInt(req.body["duration"]);
+  const date = req.body["date"] || new Date();
+  console.log(date);
   const newExercise = {
     description,
     duration,
     date: new Date(date),
   };
-
+  console.log(newExercise);
   const user = await User.findOneAndUpdate(
     { _id: id }, // Replace with the actual _id of the user
     { $push: { log: newExercise }, $inc: { count: 1 } },
     { new: true } // // Return the updated document
   );
-
+  // console.log(user);
   if (!user) {
     return res.json({
       message: "User not found",
@@ -78,7 +78,7 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     _id: user._id,
     username: user.username,
     date: new Date(date).toDateString(),
-    duration: duration,
+    duration: parseInt(duration),
     description: description,
   });
 });
