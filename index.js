@@ -132,7 +132,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
       return {
         description: e.description,
         duration: e.duration,
-        date: new Date(e.date),
+        date: new Date(e.date).toDateString(),
       };
     });
     return res.json({
