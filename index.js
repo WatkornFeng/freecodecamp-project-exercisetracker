@@ -52,8 +52,8 @@ app.get("/api/users", async (req, res) => {
 });
 
 app.post("/api/users/:_id/exercises", async (req, res) => {
-  console.log(req.body);
-  const id = req.body[":_id"];
+  const id = req.params._id;
+  // console.log(id);
   const description = req.body["description"];
   const duration = parseInt(req.body["duration"]);
   const date = req.body["date"] || new Date();
@@ -63,8 +63,8 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
     duration,
     date: new Date(date),
   };
-  console.log(newExercise);
-  console.log(newExercise);
+  // console.log(newExercise);
+
   const user = await User.findOneAndUpdate(
     { _id: id }, // Replace with the actual _id of the user
     { $push: { log: newExercise }, $inc: { count: 1 } },
