@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
 const app = express();
 mongoose
   .connect(process.env.DATABASE, {
@@ -26,9 +27,9 @@ const User = mongoose.model("user", userSchema);
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname + "/public")));
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  res.sendFile(path.join(__dirname + "/views/index.html"));
 });
 app.post("/api/users", async (req, res) => {
   const username = req.body.username;
