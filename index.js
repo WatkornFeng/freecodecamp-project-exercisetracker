@@ -27,6 +27,7 @@ const User = mongoose.model("user", userSchema);
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname + "/public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/views/index.html"));
@@ -51,16 +52,18 @@ app.get("/api/users", async (req, res) => {
 });
 
 app.post("/api/users/:_id/exercises", async (req, res) => {
+  console.log(req.body);
   const id = req.body[":_id"];
   const description = req.body["description"];
   const duration = parseInt(req.body["duration"]);
   const date = req.body["date"] || new Date();
-  console.log(date);
+
   const newExercise = {
     description,
     duration,
     date: new Date(date),
   };
+  console.log(newExercise);
   console.log(newExercise);
   const user = await User.findOneAndUpdate(
     { _id: id }, // Replace with the actual _id of the user
